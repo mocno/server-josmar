@@ -1,2 +1,5 @@
+# python -m venv env
+# pip -r requirements.txt
+
 Flask
 SQLAlchemy
