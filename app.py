@@ -1,22 +1,19 @@
-from Flask import Flask
+"""This script creates a Server API for data control"""
+
+from flask import Flask, request
+from sqlalchemy.exc import SQLAlchemyError, DisconnectionError
 import db
 
 def create_app():
-    return Flask(__name__)
+    """Create flask app"""
+    app = Flask(__name__)
 
-def main():
+    return app
+
+def start_app():
+    """Start flask app with api routes"""
+
     app = create_app()
-
-    # Requests
-    # Aplicativo: josmar-app
-    # - pega informações do usuario (ele mesmo)
-    # - situação atual das salas
-    # - pega informação da chave
-    #
-    # Armario: e-josmar
-    # - recebe atualização dos dados da posição das chaves (na devolução e no uso das chaves)
-    # - faz as verificações de usuario (~~)
-    #
 
     @app.route('/user/get', methods=['GET'])
     def get_user():
@@ -59,7 +56,6 @@ def main():
     @app.route('/key/update', methods=['POST'])
     def key_update():
         pass
-        
 
 if __name__ == '__main__':
-    main()
+    start_app()
