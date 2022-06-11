@@ -1,5 +1,5 @@
 # python -m venv env
-# pip install -r requirements.txt
+# python -m pip install -r requirements.txt
 
 Flask>=2.1.2
 SQLAlchemy>=1.4.37
