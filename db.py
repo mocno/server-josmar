@@ -5,19 +5,22 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, ForeignKey, Integer, String, create_engine
 from sqlalchemy.orm import sessionmaker
 
-Base = declarative_base()
+BASE = declarative_base()
 
 
-def create_session():
-    url = 'mysql://root:root_password@127.0.0.1:3306/josmar_db'
+def create_session(url=None):
+    """This function create a session of database."""
+
+    if url is None:
+        url = 'mysql://root:root_password@127.0.0.1:3306/josmar_db'
 
     engine = create_engine(url)
     session_maker = sessionmaker(bind=engine)
 
     return session_maker()
 
-class User(Base):
-    """User instace"""
+class User(BASE):
+    """User instance"""
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -25,8 +28,8 @@ class User(Base):
     access = Column(Integer)
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, access={self.access!r})'
-    
+        return f'{self.__class__.__name__}(id={self.id!r}, name={self.name!r})'
+
     def __dict__(self):
         return {
             'id': self.id,
@@ -34,8 +37,8 @@ class User(Base):
             'access': self.access
         }
 
-class Key(Base):
-    """Key instace"""
+class Key(BASE):
+    """Key instance"""
     __tablename__ = 'key'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -46,8 +49,16 @@ class Key(Base):
     def __repr__(self):
         return f'{self.__class__.__name__}(id={self.id!r}, name={self.name!r}, room={self.room!r})'
 
-class Room(Base):
-    """Room instace"""
+    def __dict__(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'room': self.room,
+            'user': self.user
+        }
+
+class Room(BASE):
+    """Room instance"""
     __tablename__ = 'room'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -57,15 +68,20 @@ class Room(Base):
     def __repr__(self):
         return f'{self.__class__.__name__}(id={self.id!r}, name={self.name!r})'
 
+    def __dict__(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
 
-class Request(Base):
-    pass
-    # """Room instace"""
-    # __tablename__ = 'room'
 
-    # id = Column(Integer, primary_key=True, autoincrement=True)
-    # name = Column(String)
-    # # keys
+# class Request(BASE):
+#     """Request instance"""
+#     __tablename__ = 'request'
 
-    # def __repr__(self):
-    #     return f'{self.__class__.__name__}(id={self.id!r}, name={self.name!r})'
+#     id = Column(Integer, primary_key=True, autoincrement=True)
+#     name = Column(String)
+#     room = Column(Integer, ForeignKey('room.id'))
+
+#     def __repr__(self):
+#         return f'{self.__class__.__name__}(id={self.id!r}, name={self.name!r})'
