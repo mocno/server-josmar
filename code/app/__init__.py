@@ -1,12 +1,17 @@
 """This script creates a Server API for data control"""
 
+import os
 from flask import Flask, request
-from sqlalchemy.exc import SQLAlchemyError, DisconnectionError
+from sqlalchemy.exc import DisconnectionError
 import db
 
 def create_app():
     """Create flask app"""
     app = Flask(__name__)
+
+    app.config["POSTGRES_URI"] = f"postgresql+psycopg2://{os.environ['DB_USERNAME']}:" \
+        f"{os.environ['DB_PASSWORD']}@{os.environ['DB_HOSTNAME']}:{os.environ['DB_PORT']}" \
+        f"/{os.environ['DB_DATABASE']}"
 
     return app
 
@@ -26,7 +31,7 @@ def start_app():
             }
 
         try:
-            with db.create_session() as session:
+            with db.create_session(app.config["POSTGRES_URI"]) as session:
                 user = session.filter(db.User.id == user_id).first()
 
                 if user is None:
@@ -39,7 +44,7 @@ def start_app():
                     'user': dict(user),
                     'status': 'ok'
                 }
-        except (SQLAlchemyError, DisconnectionError):
+        except DisconnectionError:
             return {
                 'error': 'Error interno, erro de conexão do banco de dados',
                 'status': 'error'
@@ -56,6 +61,10 @@ def start_app():
     @app.route('/key/update', methods=['POST'])
     def key_update():
         pass
+
+    ENVIRONMENT_DEBUG = os.environ.get("APP_DEBUG", "True") == "True"
+    ENVIRONMENT_PORT = os.environ.get("APP_PORT", 5000)
+    app.run(host='0.0.0.0', port=ENVIRONMENT_PORT, debug=ENVIRONMENT_DEBUG)
 
 if __name__ == '__main__':
     start_app()

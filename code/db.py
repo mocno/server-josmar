@@ -8,13 +8,10 @@ from sqlalchemy.orm import sessionmaker
 BASE = declarative_base()
 
 
-def create_session(url=None):
+def create_session(uri):
     """This function create a session of database."""
 
-    if url is None:
-        url = 'mysql://root:root_password@127.0.0.1:3306/josmar_db'
-
-    engine = create_engine(url)
+    engine = create_engine(uri)
     session_maker = sessionmaker(bind=engine)
 
     return session_maker()
@@ -25,6 +22,7 @@ class User(BASE):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
+    password = Column(String)
     access = Column(Integer)
 
     def __repr__(self):
