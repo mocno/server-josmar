@@ -62,9 +62,9 @@ def start_app():
     def key_update():
         pass
 
-    ENVIRONMENT_DEBUG = os.environ.get("APP_DEBUG", "True") == "True"
-    ENVIRONMENT_PORT = os.environ.get("APP_PORT", 5000)
-    app.run(host='0.0.0.0', port=ENVIRONMENT_PORT, debug=ENVIRONMENT_DEBUG)
+    environment_debug = os.environ.get("APP_DEBUG", "False") == "True"
+    environment_port = os.environ.get("APP_PORT", 5000)
+    app.run(host='0.0.0.0', port=environment_port, debug=environment_debug)
 
 if __name__ == '__main__':
     start_app()
