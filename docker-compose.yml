@@ -1,0 +1,33 @@
+version: '3'
+services:
+    flask:
+        container_name: container-flask
+        build:
+            context: .
+            dockerfile: docker/Dockerfile.python
+        restart: always
+        environment:
+            APP_DEBUG: "True"
+            APP_PORT: 8000
+            DB_DATABASE: josmar_db
+            DB_USERNAME: flask_user
+            DB_PASSWORD: flask_db_password
+            DB_HOSTNAME: 0.0.0.0
+            DB_PORT: 54322
+        volumes:
+            - ./code:/code/
+        ports:
+            - 8000:80
+
+    postgres-service:
+        image: postgres:latest
+        restart: always
+        container_name: container-postgres
+        ports:
+            - 55432:5432/tcp
+        environment:
+            POSTGRES_DB: josmar_db
+            POSTGRES_USER: flask_user
+            POSTGRES_PASSWORD: flask_db_password
+        volumes:
+            - ./dbscripts:/docker-entrypoint-initdb.d
