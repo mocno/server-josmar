@@ -18,7 +18,7 @@ def create_session(uri):
 
 class User(BASE):
     """User instance"""
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
@@ -37,7 +37,7 @@ class User(BASE):
 
 class Key(BASE):
     """Key instance"""
-    __tablename__ = 'key'
+    __tablename__ = 'keys'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
@@ -57,7 +57,7 @@ class Key(BASE):
 
 class Room(BASE):
     """Room instance"""
-    __tablename__ = 'room'
+    __tablename__ = 'rooms'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
@@ -75,7 +75,7 @@ class Room(BASE):
 
 # class Request(BASE):
 #     """Request instance"""
-#     __tablename__ = 'request'
+#     __tablename__ = 'requests'
 
 #     id = Column(Integer, primary_key=True, autoincrement=True)
 #     name = Column(String)
