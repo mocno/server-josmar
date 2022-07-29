@@ -1,0 +1,11 @@
+ports:
+  - name: API
+    port: 8000
+    onOpen: open-preview
+
+  - name: Adminer
+    port: 8080
+
+tasks:
+  - command: |
+      sudo docker-upe
