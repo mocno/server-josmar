@@ -1,7 +1,7 @@
 FROM python:3.8-slim-buster
 COPY ./code/ /code/
 WORKDIR /code/
+RUN python -m pip install --upgrade pip
 RUN python -m pip install -r requirements.txt
-ENV FLASK_APP app
-ENV FLASK_ENV development
-CMD python -m flask run --host=0.0.0.0
+CMD python -m flask run
+EXPOSE 8000
